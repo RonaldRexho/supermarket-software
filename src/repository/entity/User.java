@@ -1,5 +1,6 @@
 package repository.entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class User {
@@ -8,9 +9,11 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
+	
+
 	private String password;
 	private String phone;
-	private LocalDate birthday;
+	private Date birthday;
 	private String username;
 	private double salary;
 	private boolean active;
@@ -83,5 +86,27 @@ public class User {
 	public String getRole() {
 		return role.getName();
 	}
+	
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public String getName() {
+		return firstName + " " + lastName;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", phone=" + phone + ", birthday=" + birthday + ", username=" + username
+				+ ", salary=" + salary + ", active=" + active + ", role=" + role + "]";
+	}
+	
+	
 	
 }

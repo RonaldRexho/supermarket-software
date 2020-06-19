@@ -12,7 +12,7 @@ public enum Role {
 		this.name = name;
 	}
 	
-	public Role getRole(int id) {
+	public static Role getRole(int id) {
 		if(id == 1) {
 			return CASHIER;
 		}
