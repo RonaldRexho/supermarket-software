@@ -17,4 +17,36 @@ public class UserService {
 		return userRepository.getUsers();
 	}
 
+	// control if username exist
+	public User insert(User user) {
+
+		if (userRepository.exist(user.getUsername())) {
+
+			throw new RuntimeException("Username already taken");
+		}
+
+		return userRepository.insert(user);
+
+	}
+
+	// update user method
+	public User update(User user) {
+
+		if (userRepository.exist(user.getUsername())) {
+
+			return userRepository.update(user);
+		}
+		return user;
+	}
+	
+	
+	// delete user
+	
+	public boolean delete(int id) {
+		
+		return userRepository.delete(id);
+		
+	}
+	
+
 }
