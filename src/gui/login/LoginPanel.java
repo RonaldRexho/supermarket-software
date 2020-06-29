@@ -10,8 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import gui.SupermarketFrame;
 import model.User;
 import service.UserService;
+import util.Flow;
 
 public class LoginPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +55,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		}
 		
 		if(success) {
-			//main frame do next, show next panel
-			System.out.println("success " + success);
+			SupermarketFrame.nextView(Flow.ADMIN);
 		} else {
 			showErrorMessage();
 		}
