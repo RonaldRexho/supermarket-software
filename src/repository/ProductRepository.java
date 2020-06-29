@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import repository.entity.Product;
-import repository.entity.User;
+import model.Product;
+import model.User;
 import util.DBUtil;
 
 public class ProductRepository {

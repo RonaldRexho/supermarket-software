@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import repository.entity.Role;
-import repository.entity.User;
+import model.Role;
+import model.User;
 import util.DBUtil;
 
 public class UserRepository {
@@ -22,6 +22,7 @@ public class UserRepository {
 			+ "	 first_name, last_name, birthday, username, email, password, phone, salary)"
 			+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String FIND_BY_ID = "SELECT * FROM \"user\" WHERE id=?";
+	private static final String FIND_BY_USERNAME = "SELECT * FROM \"user\" WHERE username=?";
 	private static final String UPDATE = "UPDATE public.\"user\""
 			+ "	SET first_name=?, last_name=?, birthday=?, email=?, phone=?, salary=?, modified_on=?\r\n"
 			+ "	WHERE id=?";
@@ -60,6 +61,7 @@ public class UserRepository {
 		user.setLastName(rs.getString("last_name"));
 		user.setEmail(rs.getString("email"));
 		user.setUsername(rs.getString("username"));
+		user.setPassword(rs.getString("password"));
 		user.setPhone(rs.getString("phone"));
 		user.setBirthday(rs.getDate("birthday"));
 		user.setSalary(rs.getDouble("salary"));
@@ -114,6 +116,27 @@ public class UserRepository {
 	}
 
 	// find user by id
+	public User findByUsername(String username) {
+
+		User user = null;
+
+		try (PreparedStatement st = DBUtil.connect().prepareStatement(FIND_BY_USERNAME)) {
+
+			st.setString(1, username);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				user = extractUser(rs);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+	
+	// find user by username
 	public User findById(int id) {
 
 		User user = null;

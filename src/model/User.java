@@ -1,7 +1,6 @@
-package repository.entity;
+package model;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class User {
 
@@ -9,8 +8,6 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	
-
 	private String password;
 	private String phone;
 	private Date birthday;

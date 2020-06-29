@@ -2,10 +2,10 @@ package service;
 
 import java.util.List;
 
+import model.Product;
+import model.User;
 import repository.ProductRepository;
 import repository.UserRepository;
-import repository.entity.Product;
-import repository.entity.User;
 
 public class ProductService {
 

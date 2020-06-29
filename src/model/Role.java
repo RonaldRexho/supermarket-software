@@ -1,4 +1,4 @@
-package repository.entity;
+package model;
 
 public enum Role {
 

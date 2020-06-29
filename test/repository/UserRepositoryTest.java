@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import repository.entity.Role;
-import repository.entity.User;
+import model.Role;
+import model.User;
 import util.DBUtil;
 
 public class UserRepositoryTest {
