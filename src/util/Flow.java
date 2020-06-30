@@ -2,5 +2,5 @@ package util;
 
 public enum Flow {
 
-	LOGIN, ADMIN
+	LOGIN, ADMIN , CASHIER
 }

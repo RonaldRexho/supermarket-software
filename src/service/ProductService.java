@@ -15,10 +15,24 @@ public class ProductService {
 		productRepository = new ProductRepository();
 	}
 
+	public Product findByCode(String code) {
+		//TODO validation if code null or empy
+		productRepository.findByCode(code);
+		return productRepository.findByCode(code);
+		
+	}
+	
+	
+	
 	public List<Product> getProduct() {
 		return productRepository.getProduct();
 	}
 
+	
+	
+	
+	
+	
 	// control if in stock if empty insert
 	public Product insert(Product prod) {
 
@@ -31,6 +45,7 @@ public class ProductService {
 
 	}
 
+	
 	public Product update(Product prod) {
 
 		if (productRepository.exist(prod.getCode())) {

@@ -21,7 +21,7 @@ public class ProductRepository {
 			+ "	id, name, code, supplier_id, category, purchase_date, expire_on, quantity, price,purches_price)\r\n"
 			+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,);";
 	private static final String EXIST = "SELECT COUNT(*) FROM \\\"product\\\" WHERE code=?";
-	private static final String FIND_BY_ID = "SELECT * FROM \"product\" WHERE id=?";
+	private static final String FIND_BY_CODE = "SELECT * FROM \"product\" WHERE code=?";
 	private static final String UPDATE = "UPDATE public.product\r\n"
 			+ "	SET name=?, code=?, supplier_id=?, category=?, purchase_date=?, expire_on=?, quantity=?, price=?, created_on=?, modified_on=?, purches_price=?\r\n"
 			+ "	WHERE id=?;";
@@ -59,7 +59,7 @@ public class ProductRepository {
 		prod.setQuantity(rs.getInt("quantity"));
 		prod.setSupplierId(rs.getInt("supplier_id"));
 		prod.setExpiredOn(rs.getDate("expire_on"));
-		prod.setPurchasedDate(rs.getDate("purchase_date"));
+
 		return prod;
 
 	}
@@ -108,13 +108,13 @@ public class ProductRepository {
 		return false;
 	}
 
-	public Product findById(int id) {
+	public Product findByCode(String code) {
 
 		Product prod = null;
 
-		try (PreparedStatement st = DBUtil.connect().prepareStatement(FIND_BY_ID)) {
+		try (PreparedStatement st = DBUtil.connect().prepareStatement(FIND_BY_CODE)) {
 
-			st.setInt(1, id);
+			st.setString(1, code);
 			ResultSet rs = st.executeQuery();
 
 			if (rs.next()) {

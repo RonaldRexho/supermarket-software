@@ -2,7 +2,7 @@ package model;
 
 public enum Role {
 
-	CASHIER(1, "Cashier"), ADMIN(2, "Administrator");
+	CASHIER(2, "Cashier"), ADMIN(1, "Administrator");
 	
 	private int id;
 	private String name;

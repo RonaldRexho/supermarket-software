@@ -8,6 +8,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="/Users/user/Downloads/postgresql-42.2.14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/postgresql-42.2.14.jre6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/rs2xml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
