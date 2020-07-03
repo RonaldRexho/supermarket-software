@@ -16,16 +16,12 @@ import util.DBUtil;
 
 public class ProductRepository {
 
-	private static final String SELECT_ALL = "SELECT * FROM \"product\";";
-	private static final String INSERT = "INSERT INTO public.product(\r\n"
-			+ "	id, name, code, supplier_id, category, purchase_date, expire_on, quantity, price,purches_price)\r\n"
-			+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,);";
-	private static final String EXIST = "SELECT COUNT(*) FROM \\\"product\\\" WHERE code=?";
+	private static final String SELECT_ALL = "SELECT * FROM product;";
+	private static final String INSERT = "INSERT INTO product (name, code, quantity, price) VALUES (?, ?, ?, ?);";
+	private static final String EXIST = "SELECT COUNT(*) FROM product WHERE code=?";
 	private static final String FIND_BY_CODE = "SELECT * FROM \"product\" WHERE code=?";
-	private static final String UPDATE = "UPDATE public.product\r\n"
-			+ "	SET name=?, code=?, supplier_id=?, category=?, purchase_date=?, expire_on=?, quantity=?, price=?, created_on=?, modified_on=?, purches_price=?\r\n"
-			+ "	WHERE id=?;";
-
+	private static final String UPDATE = "UPDATE product SET name=?, quantity=?, price=? WHERE code=?;";
+private static final String DELETE = "DELETE FROM product WHERE code=?;";
 	public List<Product> getProduct() {
 
 		try (Statement st = DBUtil.connect().createStatement(); ResultSet rs = st.executeQuery(SELECT_ALL)) {
@@ -38,7 +34,7 @@ public class ProductRepository {
 	}
 
 	private List<Product> extractProductsFromResultSet(ResultSet rs) throws SQLException {
-		List<Product> products = new ArrayList();
+		List<Product> products = new ArrayList<>();
 
 		while (rs.next()) {
 
@@ -52,38 +48,26 @@ public class ProductRepository {
 		Product prod = new Product();
 		prod.setId(rs.getInt("id"));
 		prod.setCode(rs.getString("code"));
-		prod.setCategory(rs.getInt("category"));
 		prod.setName(rs.getString("name"));
 		prod.setPrice(rs.getDouble("price"));
-		prod.setPurchesedPrice(rs.getDouble("purches_price"));
 		prod.setQuantity(rs.getInt("quantity"));
-		prod.setSupplierId(rs.getInt("supplier_id"));
-		prod.setExpiredOn(rs.getDate("expire_on"));
 
 		return prod;
 
 	}
 
-	public Product insert(Product prod) {
+	public boolean insert(Product prod) {
 		try (PreparedStatement st = DBUtil.connect().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-			st.setInt(1, prod.getId());
-			st.setString(2, prod.getName());
-			st.setString(3, prod.getCode());
-			st.setInt(4, prod.getSupplierId());
-			st.setInt(5, prod.getCategory());
-			st.setDate(6, prod.getPurchasedDate());
-			st.setDate(7, prod.getExpiredOn());
-			st.setInt(8, prod.getQuantity());
-			st.setDouble(9, prod.getPrice());
-			st.setDouble(10, prod.getPurchesedPrice());
+			st.setString(1, prod.getName());
+			st.setString(2, prod.getCode());
+			st.setInt(3, prod.getQuantity());
+			st.setDouble(4, prod.getPrice());
 			st.executeUpdate();
-
+			return true;
 		} catch (SQLException e) {
-
 			e.printStackTrace();
+			return false;
 		}
-
-		return prod;
 
 	}
 
@@ -128,19 +112,13 @@ public class ProductRepository {
 		return prod;
 	}
 
-	public Product update(Product prod) {
+	public void update(Product prod) {
 
 		try (PreparedStatement st = DBUtil.connect().prepareStatement(UPDATE)) {
-			st.setInt(1, prod.getId());
-			st.setString(2, prod.getName());
-			st.setString(3, prod.getCode());
-			st.setInt(4, prod.getSupplierId());
-			st.setInt(5, prod.getCategory());
-			st.setDate(6, prod.getPurchasedDate());
-			st.setDate(7, prod.getExpiredOn());
-			st.setInt(8, prod.getQuantity());
-			st.setDouble(9, prod.getPrice());
-			st.setDouble(10, prod.getPurchesedPrice());
+			st.setString(1, prod.getName());
+			st.setInt(2, prod.getQuantity());
+			st.setDouble(3, prod.getPrice());
+			st.setString(4, prod.getCode());
 
 			st.executeUpdate();
 
@@ -148,8 +126,18 @@ public class ProductRepository {
 			e.printStackTrace();
 		}
 
-		return prod;
-
 	}
 
+	
+	public void delete(String code) {
+		
+		try (PreparedStatement st=DBUtil.connect().prepareStatement(DELETE)){
+			st.setString(1, code);
+			st.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

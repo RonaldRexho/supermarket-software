@@ -16,25 +16,18 @@ public class ProductService {
 	}
 
 	public Product findByCode(String code) {
-		//TODO validation if code null or empy
+		// TODO validation if code null or empy
 		productRepository.findByCode(code);
 		return productRepository.findByCode(code);
-		
+
 	}
-	
-	
-	
-	public List<Product> getProduct() {
+
+	public List<Product> getProducts() {
 		return productRepository.getProduct();
 	}
 
-	
-	
-	
-	
-	
 	// control if in stock if empty insert
-	public Product insert(Product prod) {
+	public boolean insert(Product prod) {
 
 		if (productRepository.exist(prod.getCode())) {
 
@@ -45,14 +38,22 @@ public class ProductService {
 
 	}
 
-	
-	public Product update(Product prod) {
+	public void update(Product prod) {
 
 		if (productRepository.exist(prod.getCode())) {
-
-			return productRepository.update(prod);
+			productRepository.update(prod);
+		} else {
+			throw new RuntimeException("Product not exist");
 		}
-		return prod;
+		
+	}
+	
+	public void delete(String code) {
+		if (productRepository.exist(code)) {
+			productRepository.delete(code);
+		} else {
+			throw new RuntimeException("Product not exist");
+		}
 	}
 
 }

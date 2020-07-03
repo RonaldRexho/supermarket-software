@@ -20,9 +20,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class Cashier extends JFrame {
 	
@@ -34,6 +37,7 @@ public class Cashier extends JFrame {
 	private JTextField totalTextField;
 	private JLabel totalLabel;
 
+
 	/**
 	 * Create the frame.
 	 */
@@ -42,6 +46,7 @@ public class Cashier extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 385);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.inactiveCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
@@ -50,6 +55,7 @@ public class Cashier extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Quantity\r\n");
 		
 		JButton btnNewButton = new JButton("Add");
+		btnNewButton.setBackground(SystemColor.activeCaption);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,13 +68,22 @@ public class Cashier extends JFrame {
 				}
 				int quantity = Integer.parseInt(quantityTextField.getText());
 				if (quantity>product.getQuantity()) {
-					showErrorMessage("Quantity not avaliable");
+					showErrorMessage("Quantity not avaliable remaining" + product.getQuantity() +"items");
 					succes=false;
 				}
 				if (succes) {
+					
 					DefaultListModel demoList = new DefaultListModel();
-					 demoList.addElement("{" + product.getCode() + "}");
-					 JList listd = new JList(demoList);
+					
+					
+					demoList.addElement("{"+ product.getName()+"}" +"{" + product.getCode() + "}" + "{" + quantity+ "}");
+					 //JList listd = new JList(demoList);
+					 codeTextField.setText("");
+					 quantityTextField.setText("");
+				
+					 items.setModel(demoList);
+					
+					
 				}
 			}
 		});
@@ -81,8 +96,6 @@ public class Cashier extends JFrame {
 		
 		items = new JList();
 		
-		JScrollBar scrollBar = new JScrollBar();
-		
 		totalTextField = new JTextField();
 		totalTextField.setColumns(10);
 		
@@ -91,44 +104,42 @@ public class Cashier extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(52)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addGap(24)
-							.addComponent(codeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblNewLabel_1)
-							.addGap(18)
-							.addComponent(quantityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+							.addGap(52)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblNewLabel)
+									.addGap(24)
+									.addComponent(codeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblNewLabel_1)
+									.addGap(18)
+									.addComponent(quantityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNewButton))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(188)
 									.addComponent(totalLabel)
 									.addGap(18)
-									.addComponent(totalTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addComponent(items, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
-							.addGap(11)
-							.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)))
-					.addGap(81))
+									.addComponent(totalTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(76)
+							.addComponent(items, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(81, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(37)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel)
-								.addComponent(codeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1)
-								.addComponent(quantityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnNewButton))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(items, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(codeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(quantityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(items, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(totalTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
