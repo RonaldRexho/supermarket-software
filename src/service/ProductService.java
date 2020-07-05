@@ -17,8 +17,10 @@ public class ProductService {
 
 	public Product findByCode(String code) {
 		// TODO validation if code null or empy
-		productRepository.findByCode(code);
-		return productRepository.findByCode(code);
+		if (productRepository.exist(code)) {
+			return productRepository.findByCode(code);
+		}
+		throw new RuntimeException("Product does not exist");
 
 	}
 

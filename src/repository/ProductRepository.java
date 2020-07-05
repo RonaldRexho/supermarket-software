@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import model.Product;
 import model.User;
 import util.DBUtil;
@@ -19,9 +21,11 @@ public class ProductRepository {
 	private static final String SELECT_ALL = "SELECT * FROM product;";
 	private static final String INSERT = "INSERT INTO product (name, code, quantity, price) VALUES (?, ?, ?, ?);";
 	private static final String EXIST = "SELECT COUNT(*) FROM product WHERE code=?";
-	private static final String FIND_BY_CODE = "SELECT * FROM \"product\" WHERE code=?";
+	private static final String FIND_BY_CODE = "SELECT * FROM product WHERE code=?";
 	private static final String UPDATE = "UPDATE product SET name=?, quantity=?, price=? WHERE code=?;";
-private static final String DELETE = "DELETE FROM product WHERE code=?;";
+	private static final String DELETE = "DELETE FROM product WHERE code=?;";
+	private static final String UPDATE_QUANTITY = "UPDATE product SET quantity= quantity-? WHERE code=?;";
+
 	public List<Product> getProduct() {
 
 		try (Statement st = DBUtil.connect().createStatement(); ResultSet rs = st.executeQuery(SELECT_ALL)) {
@@ -94,22 +98,18 @@ private static final String DELETE = "DELETE FROM product WHERE code=?;";
 
 	public Product findByCode(String code) {
 
-		Product prod = null;
-
 		try (PreparedStatement st = DBUtil.connect().prepareStatement(FIND_BY_CODE)) {
 
 			st.setString(1, code);
 			ResultSet rs = st.executeQuery();
-
-			if (rs.next()) {
-				prod = extractProduct(rs);
-			}
+			rs.next();
+			return extractProduct(rs);
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
-		return prod;
 	}
 
 	public void update(Product prod) {
@@ -128,16 +128,26 @@ private static final String DELETE = "DELETE FROM product WHERE code=?;";
 
 	}
 
-	
 	public void delete(String code) {
-		
-		try (PreparedStatement st=DBUtil.connect().prepareStatement(DELETE)){
+
+		try (PreparedStatement st = DBUtil.connect().prepareStatement(DELETE)) {
 			st.setString(1, code);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
+	public void removeQuantity(String code, int quantity) {
+		try (PreparedStatement st = DBUtil.connect().prepareStatement(UPDATE_QUANTITY)) {
+			st.setInt(1, quantity);
+			st.setString(2, code);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException("Error");
+		}
+
+	}
+
 }
