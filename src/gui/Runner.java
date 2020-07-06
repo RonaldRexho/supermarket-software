@@ -25,7 +25,7 @@ public class Runner {
 			current = new LoginView();
 			break;
 		case ADMIN:
-			current = new Admin();
+//			current = new Admin();
 			break;
 		case CASHIER:
 			current = new Cashier();

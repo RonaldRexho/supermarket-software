@@ -125,11 +125,6 @@ public class Inventory extends JFrame {
 		quantityField.setText("");
 	}
 
-	private void refresh() {
-		contentPane.repaint();
-
-	}
-
 	private Product createProductFromFields() {
 		Product product = new Product();
 		product.setName(nameField.getText());
@@ -148,7 +143,6 @@ public class Inventory extends JFrame {
 				inventory.add(product);
 				clear();
 				showMessage("Inserted successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-				refresh();
 			} catch (SupermarketException ex) {
 				showMessage(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -164,7 +158,6 @@ public class Inventory extends JFrame {
 				inventory.update(product);
 				clear();
 				showMessage("Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-				refresh();
 			} catch (SupermarketException ex) {
 				showMessage(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -181,7 +174,6 @@ public class Inventory extends JFrame {
 				clear();
 				inventory.remove(code);
 				showMessage("Removed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-				refresh();
 			} catch (SupermarketException ex) {
 				showMessage(ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -197,7 +189,6 @@ public class Inventory extends JFrame {
 	}
 
 	class RowSelectionListener implements ListSelectionListener {
-
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int row = inventoryTable.getSelectedRow();
