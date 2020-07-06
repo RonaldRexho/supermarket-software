@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -18,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import exception.SupermarketException;
+import gui.Runner;
 import model.User;
 import service.UserService;
 import util.View;

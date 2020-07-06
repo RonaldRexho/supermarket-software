@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import gui.login.LoginView;
 import util.View;
 
 public class Runner {

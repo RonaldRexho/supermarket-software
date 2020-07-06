@@ -94,6 +94,10 @@ public class Product {
 	public void setPurchasedDate(Date purchasedDate) {
 		this.purchasedDate = purchasedDate;
 	}
+	
+	public boolean hasCode(String code) {
+		return this.code.equals(code);
+	}
 
 	@Override
 	public String toString() {
