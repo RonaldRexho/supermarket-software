@@ -1,11 +1,11 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import exception.SupermarketException;
 import model.Product;
-import model.User;
 import repository.ProductRepository;
-import repository.UserRepository;
 
 public class ProductService {
 
@@ -16,45 +16,71 @@ public class ProductService {
 	}
 
 	public Product findByCode(String code) {
-		// TODO validation if code null or empy
-		if (productRepository.exist(code)) {
-			return productRepository.findByCode(code);
-		}
-		throw new RuntimeException("Product does not exist");
+		try {
 
+			if (productRepository.exist(code)) {
+				return productRepository.findByCode(code);
+			} else {
+				throw new SupermarketException("Product does not exist");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
+		}
 	}
 
 	public List<Product> getProducts() {
-		return productRepository.getProduct();
+		try {
+			return productRepository.getProducts();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
+		}
 	}
 
-	// control if in stock if empty insert
-	public boolean insert(Product prod) {
+	public void insert(Product prod) {
+		try {
 
-		if (productRepository.exist(prod.getCode())) {
+			if (productRepository.exist(prod.getCode())) {
+				throw new SupermarketException("Product already inserted");
+			} else {
+				productRepository.insert(prod);
+			}
 
-			throw new RuntimeException("In Stock");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
-
-		return productRepository.insert(prod);
-
 	}
 
 	public void update(Product prod) {
+		try {
 
-		if (productRepository.exist(prod.getCode())) {
-			productRepository.update(prod);
-		} else {
-			throw new RuntimeException("Product not exist");
+			if (productRepository.exist(prod.getCode())) {
+				productRepository.update(prod);
+			} else {
+				throw new SupermarketException("Product does not exist");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
-		
 	}
-	
+
 	public void delete(String code) {
-		if (productRepository.exist(code)) {
-			productRepository.delete(code);
-		} else {
-			throw new RuntimeException("Product not exist");
+		try {
+
+			if (productRepository.exist(code)) {
+				productRepository.delete(code);
+			} else {
+				throw new SupermarketException("Product not exist");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
 	}
 

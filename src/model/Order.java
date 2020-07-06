@@ -5,6 +5,10 @@ public class Order {
 	private int id;
 	private long code;
 	
+	public Order() {
+		this.code = System.currentTimeMillis();
+	}
+	
 	public int getId() {
 		return id;
 	}

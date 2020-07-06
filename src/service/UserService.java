@@ -1,11 +1,12 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
+import exception.SupermarketException;
 import model.User;
 import repository.UserRepository;
+
 
 public class UserService {
 
@@ -16,38 +17,74 @@ public class UserService {
 	}
 
 	public User findByUsername(String username) {
-		return userRepository.findByUsername(username);
+		try {
+			if (userRepository.exist(username)) {
+				return userRepository.findByUsername(username);
+			} else {
+				throw new SupermarketException("Invalid username");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
+		}
 	}
 
 	public List<User> getUsers() {
-		return userRepository.getUsers();
+		try {
+			return userRepository.getUsers();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
+		}
 	}
 
-	// control if username exist
 	public void insert(User user) {
-		if (userRepository.exist(user.getUsername())) {
-			throw new RuntimeException("Username already taken");
+		try {
+
+			if (userRepository.exist(user.getUsername())) {
+				throw new SupermarketException("Username already taken");
+			} else {
+				userRepository.insert(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
-		userRepository.insert(user);
+
 	}
 
-	// update user method
 	public void update(User user) {
-		if (!userRepository.exist(user.getUsername())) {
-			throw new RuntimeException("User does not exist");
-		}
-		userRepository.update(user);
-	}
+		try {
 
-	// delete user
+			if (!userRepository.exist(user.getUsername())) {
+				throw new SupermarketException("User does not exist");
+			} else {
+				userRepository.update(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
+		}
+
+	}
 
 	public void delete(String username) {
-		if (!userRepository.exist(username)) {
-			throw new RuntimeException("User does not exist");
-		} else {
+		try {
 
-			userRepository.delete(username);
+			if (!userRepository.exist(username)) {
+				throw new RuntimeException("User does not exist");
+			} else {
+				userRepository.delete(username);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
+
 	}
 
 }

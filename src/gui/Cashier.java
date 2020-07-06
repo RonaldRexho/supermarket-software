@@ -1,41 +1,33 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import model.Order;
-import model.OrderItem;
-import model.Product;
-import model.User;
-import service.OrderService;
-import service.ProductService;
-
-import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-
-import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.SystemColor;
+
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+
+import model.Order;
+import model.OrderItem;
+import model.Product;
+import service.OrderService;
+import service.ProductService;
 
 public class Cashier extends JFrame {
 
@@ -156,7 +148,7 @@ public class Cashier extends JFrame {
 					productModel.clear();
 					totalTextField.setText("");
 					products = productService.getProducts();
-					productModel.addAll(products);
+//					productModel.addAll(products);
 					contentPane.repaint();
 					showMessage("Success");
 				} catch (RuntimeException e2) {
@@ -232,7 +224,7 @@ public class Cashier extends JFrame {
 		productList = new JList();
 		productModel = new DefaultListModel();
 		products = productService.getProducts();
-		productModel.addAll(products);
+//		productModel.addAll(products);
 		productList.setModel(productModel);
 
 		MouseListener mouseListener = new MouseAdapter() {

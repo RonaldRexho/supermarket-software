@@ -1,8 +1,9 @@
 package service;
 
-import java.time.LocalDate;
+import java.sql.SQLException;
 import java.util.List;
 
+import exception.SupermarketException;
 import model.Order;
 import model.OrderItem;
 import repository.OrderRepository;
@@ -20,16 +21,20 @@ public class OrderService {
 	}
 
 	public void insert(List<OrderItem> orderItems) {
-		Order order = new Order();
-		long code = System.currentTimeMillis();
-		order.setCode(code);
+		try {
+			Order order = new Order();
+			int orderId = orderRepository.insert(order);
 
-		int orderId = orderRepository.insert(order);
-		setOrderId(orderItems, orderId);
+			setOrderId(orderItems, orderId);
 
-		for (OrderItem orderItem : orderItems) {
-			orderRepository.insertOrderItem(orderItem);
-			productRepository.removeQuantity(orderItem.getCode(), orderItem.getQuantity());
+			for (OrderItem orderItem : orderItems) {
+				orderRepository.insert(orderItem);
+				productRepository.reduceQuantity(orderItem.getCode(), orderItem.getQuantity());
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SupermarketException("Cannot connect to database");
 		}
 	}
 
