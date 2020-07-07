@@ -2,7 +2,6 @@ package model;
 
 public class OrderItem {
 
-	
 	private int id;
 	private double price;
 	private int quantity;
@@ -10,53 +9,71 @@ public class OrderItem {
 	private int productId;
 	private String name;
 	private String code;
-	
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public double getPrice() {
 		return price;
 	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
 	public int getOrderId() {
 		return orderId;
 	}
+
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
+
 	public int getProductId() {
 		return productId;
 	}
+
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	@Override
-	public String toString() {
-		return "OrderItem [price=" + price + ", quantity=" + quantity + ", name=" + name + "]";
+	
+	public boolean quantityGreaterThan(int quantity) {
+		return this.quantity> quantity;
 	}
+	
+	public boolean quantityLessThan(int quantity) {
+		return !quantityGreaterThan(quantity);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -64,6 +81,7 @@ public class OrderItem {
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -80,9 +98,5 @@ public class OrderItem {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
+
 }

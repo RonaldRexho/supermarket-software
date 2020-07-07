@@ -6,6 +6,8 @@ import model.Product;
 
 import javax.swing.table.AbstractTableModel;
 
+import exception.SupermarketException;
+
 public class InventoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
@@ -72,12 +74,12 @@ public class InventoryTableModel extends AbstractTableModel {
 		return products.get(row);
 	}
 	
-	private Product find(String code) {
+	public Product find(String code) {
 		for(Product product : products) {
 			if (product.hasCode(code)) {
 				return product;
 			}
 		}
-		return null;
+		throw new SupermarketException("Product does not exist");
 	}
 }

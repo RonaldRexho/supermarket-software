@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import gui.admin.AdminView;
+import gui.cashier.CashierView;
 import gui.employee.EmployeeView;
 import gui.inventory.InventoryView;
 import gui.login.LoginView;
@@ -31,7 +32,7 @@ public class Runner {
 			current = new AdminView();
 			break;
 		case CASHIER:
-			current = new Cashier();
+			current = new CashierView();
 			break;
 		case EMPLOYEES:
 			current = new EmployeeView();

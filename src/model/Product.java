@@ -98,6 +98,10 @@ public class Product {
 	public boolean hasCode(String code) {
 		return this.code.equals(code);
 	}
+	
+	public boolean hasAvailableQuantity(int quantityReuqired) {
+		return this.quantity >= quantityReuqired;
+	}
 
 	@Override
 	public String toString() {
