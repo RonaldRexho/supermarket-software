@@ -2,5 +2,5 @@ package util;
 
 public enum View {
 
-	LOGIN, ADMIN, CASHIER
+	LOGIN, ADMIN, CASHIER, EMPLOYEES, INVENTORY
 }

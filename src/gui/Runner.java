@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import gui.admin.AdminView;
+import gui.employee.EmployeeView;
+import gui.inventory.InventoryView;
 import gui.login.LoginView;
 import util.View;
 
@@ -25,11 +28,16 @@ public class Runner {
 			current = new LoginView();
 			break;
 		case ADMIN:
-//			current = new Admin();
+			current = new AdminView();
 			break;
 		case CASHIER:
 			current = new Cashier();
 			break;
+		case EMPLOYEES:
+			current = new EmployeeView();
+			break;
+		case INVENTORY:
+			current = new InventoryView();
 		}
 		current.setVisible(true);	
 	}

@@ -26,7 +26,7 @@ import exception.SupermarketException;
 import model.Product;
 import service.ProductService;
 
-public class Inventory extends JFrame {
+public class InventoryView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private ProductService productService;
@@ -51,20 +51,7 @@ public class Inventory extends JFrame {
 	private InventoryTableModel inventory;
 	private JScrollPane scrollPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Inventory frame = new Inventory();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public Inventory() {
+	public InventoryView() {
 		productService = new ProductService();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
