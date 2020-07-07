@@ -17,9 +17,9 @@ public class UserRepository {
 
 	private static final String SELECT_ALL = "SELECT * FROM \"user\";";
 	private static final String EXIST = "SELECT COUNT(*) FROM \"user\" WHERE username=?";
-	private static final String INSERT = "INSERT INTO \"user\"(	 first_name, last_name, username, email, password, phone) VALUES (?, ?, ?, ?, ?, ?);";
+	private static final String INSERT = "INSERT INTO \"user\"(	 first_name, last_name, username, email, password, phone, birthday) VALUES (?, ?, ?, ?, ?, ?, ?);";
 	private static final String FIND_BY_USERNAME = "SELECT * FROM \"user\" WHERE username=?";
-	private static final String UPDATE = "UPDATE \"user\" SET first_name=?, last_name=?, email=?, phone=?, password=? WHERE username=?";
+	private static final String UPDATE = "UPDATE \"user\" SET first_name=?, last_name=?, email=?, phone=?, password=?, birthday=? WHERE username=?";
 	private static final String DELETE = "DELETE FROM \"user\" WHERE username=?;";
 
 	public List<User> getUsers() throws SQLException {
@@ -37,6 +37,7 @@ public class UserRepository {
 			st.setString(4, user.getEmail());
 			st.setString(5, String.valueOf(user.getPassword()));
 			st.setString(6, user.getPhone());
+			st.setDate(7, user.getBirthday());
 			st.executeUpdate();
 		}
 	}
@@ -67,7 +68,8 @@ public class UserRepository {
 			st.setString(3, user.getEmail());
 			st.setString(4, user.getPhone());
 			st.setString(5, String.valueOf(user.getPassword()));
-			st.setString(6, user.getUsername());
+			st.setDate(6, user.getBirthday());
+			st.setString(7, user.getUsername());
 			st.executeUpdate();
 		}
 	}

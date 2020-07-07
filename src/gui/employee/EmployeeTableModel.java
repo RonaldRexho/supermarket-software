@@ -49,9 +49,9 @@ public class EmployeeTableModel extends AbstractTableModel {
 		} else if (col == 4) {
 			value = employees.get(row).getPhone();
 		} else if (col == 5) {
-			value = "";
+			value = employees.get(row).getBirthdayString();
 		} else {
-			value = "ADMIN";
+			value = employees.get(row).getRole();
 		}
 		return value;
 	}

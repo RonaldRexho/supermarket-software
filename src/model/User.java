@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class User {
 
@@ -92,6 +93,11 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	public String getBirthdayString() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		return formatter.format(birthday);
 	}
 
 	public String getName() {
