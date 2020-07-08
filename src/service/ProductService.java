@@ -39,13 +39,14 @@ public class ProductService {
 		}
 	}
 
-	public void insert(Product prod) {
+	public void insert(Product product) {
+		validateProduct(product);
 		try {
 
-			if (productRepository.exist(prod.getCode())) {
+			if (productRepository.exist(product.getCode())) {
 				throw new SupermarketException("Product already inserted");
 			} else {
-				productRepository.insert(prod);
+				productRepository.insert(product);
 			}
 
 		} catch (SQLException e) {
@@ -54,11 +55,12 @@ public class ProductService {
 		}
 	}
 
-	public void update(Product prod) {
+	public void update(Product product) {
+		validateProduct(product);
 		try {
 
-			if (productRepository.exist(prod.getCode())) {
-				productRepository.update(prod);
+			if (productRepository.exist(product.getCode())) {
+				productRepository.update(product);
 			} else {
 				throw new SupermarketException("Product does not exist");
 			}
@@ -81,6 +83,30 @@ public class ProductService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SupermarketException("Cannot connect to database");
+		}
+	}
+	
+	private void validateProduct(Product product) {
+		boolean failed = false;
+		StringBuilder message = new StringBuilder("Validation error: ");
+		if (product.getCode().isEmpty()) {
+			failed = true;
+			message.append("\nCode is empty");
+		}
+		if (product.getName().isEmpty()) {
+			failed = true;
+			message.append("\nName is empty");
+		}
+		if (product.getPrice() <= 0) {
+			failed = true;
+			message.append("\nPrice is a negative number");
+		}
+		if (product.getQuantity() <= 0) {
+			failed = true;
+			message.append("\nQuantity is a negative number");
+		}
+		if (failed) {
+			throw new SupermarketException(message.toString());
 		}
 	}
 

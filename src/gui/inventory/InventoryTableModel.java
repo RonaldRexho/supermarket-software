@@ -11,7 +11,7 @@ import exception.SupermarketException;
 public class InventoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
-	private String[] columnNames = { "CODE", "NAME", "PRICE", "QUANTITY" };
+	private String[] columnNames = { "NAME", "CODE", "QUANTITY", "PRICE" };
 	private List<Product> products;
 
 	public InventoryTableModel(List<Product> products) {
@@ -40,9 +40,9 @@ public class InventoryTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		Object value;
 		if (col == 0) {
-			value = products.get(row).getCode();
-		} else if (col == 1) {
 			value = products.get(row).getName();
+		} else if (col == 1) {
+			value = products.get(row).getCode();
 		} else if (col == 2) {
 			value = products.get(row).getQuantity();
 		} else {

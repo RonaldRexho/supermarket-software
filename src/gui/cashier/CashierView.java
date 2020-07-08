@@ -100,7 +100,7 @@ public class CashierView extends JFrame {
 		productTable.setShowVerticalLines(false);
 		productTable.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		productTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		productTable.getSelectionModel().addListSelectionListener(null);
+		productTable.getSelectionModel().addListSelectionListener(new ProductSelectionListener());
 
 		items = new OrderTableModel();
 		orderTable = new JTable();
@@ -108,7 +108,7 @@ public class CashierView extends JFrame {
 		orderTable.setShowVerticalLines(false);
 		orderTable.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		orderTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		orderTable.getSelectionModel().addListSelectionListener(null);
+		orderTable.getSelectionModel().addListSelectionListener(new OrderSelectionListener());
 
 		setLayout();
 	}
@@ -267,7 +267,7 @@ public class CashierView extends JFrame {
 			int row = productTable.getSelectedRow();
 			if (row >= 0) {
 				Product product = products.get(row);
-				fill(product.getCode(), product.getQuantity());
+				fill(product.getCode(), 1);
 			}
 		}
 	}
