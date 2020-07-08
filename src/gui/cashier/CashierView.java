@@ -141,12 +141,20 @@ public class CashierView extends JFrame {
 		quantityField.setValue(0);
 	}
 	
+	private int getInsertedQuantity() {
+		int quantity = Integer.parseInt(quantityField.getValue().toString());
+		if (quantity > 0) {
+			return quantity;
+		}
+		throw new SupermarketException("Quantity is invalid");
+	}
+	
 	class AddButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				String code = codeField.getText();
-				int currentQuantity = Integer.parseInt(quantityField.getValue().toString());
+				int currentQuantity = getInsertedQuantity();
 				Product product = products.find(code);
 				if (product.hasAvailableQuantity(currentQuantity)) {
 					
@@ -178,26 +186,31 @@ public class CashierView extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				String code = codeField.getText();
-				int currentQuantity = Integer.parseInt(quantityField.getValue().toString());
+				int currentQuantity = getInsertedQuantity();
 				Product product = products.find(code);
-				//Product already inserted in cart
+				//if product already inserted in cart
 				if (items.contains(code)) {
 					OrderItem item = items.find(code);
 
+					//increase quantity of the product inserted in cart
 					if (item.quantityLessThan(currentQuantity)) {
-						int newQuantity = currentQuantity + item.getQuantity();
-						if (!product.hasAvailableQuantity(newQuantity)) {
+						int difference = currentQuantity - item.getQuantity();
+						if (!product.hasAvailableQuantity(difference)) {
 							throw new SupermarketException("Quantity not available");
 						}
-						items.setQuantity(code, newQuantity);
+						items.setQuantity(code, currentQuantity);
+						product.setQuantity(product.getQuantity() - difference);
+						products.update(product);
+						productService.update(product);	
 					}
 
+					//decrease quantity of the product inserted in cart
 					if (item.quantityGreaterThan(currentQuantity)) {
 						int difference = item.getQuantity() - currentQuantity;
 						items.setQuantity(code, currentQuantity);
 						product.setQuantity(product.getQuantity() + difference);
 						products.update(product);
-						productService.update(product);
+						productService.update(product);	
 					}
 					
 					recalculateTotal();
@@ -217,13 +230,14 @@ public class CashierView extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				String code = codeField.getText();
-				int currentQuantity = Integer.parseInt(quantityField.getValue().toString());
-				Product product = products.find(code);
 				if (items.contains(code)) {
+					Product product = products.find(code);
+					OrderItem item = items.find(code);
 					items.remove(code);
-					product.setQuantity(product.getQuantity() + currentQuantity);
+					product.setQuantity(product.getQuantity() + item.getQuantity());
 					products.update(product);
 					productService.update(product);
+					recalculateTotal();
 					clear();
 					showMessage("Removed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 				} else {
@@ -242,6 +256,7 @@ public class CashierView extends JFrame {
 				orderService.insert(items.getItems());
 				items.removeAll();
 				totalField.setText("");
+				recalculateTotal();
 				clear();
 				showMessage("Success", "Success", JOptionPane.INFORMATION_MESSAGE);
 			} catch (SupermarketException ex) {

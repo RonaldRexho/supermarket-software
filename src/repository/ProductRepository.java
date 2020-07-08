@@ -20,7 +20,6 @@ public class ProductRepository {
 	private static final String FIND_BY_CODE = "SELECT * FROM product WHERE code=?";
 	private static final String UPDATE = "UPDATE product SET name=?, quantity=?, price=? WHERE code=?;";
 	private static final String DELETE = "DELETE FROM product WHERE code=?;";
-	private static final String REDUCE_QUANTITY = "UPDATE product SET quantity= quantity-? WHERE code=?;";
 
 	public List<Product> getProducts() throws SQLException {
 		try (Statement st = createStatement()) {
@@ -75,15 +74,6 @@ public class ProductRepository {
 	public void delete(String code) throws SQLException {
 		try (PreparedStatement st = prepareStatement(DELETE)) {
 			st.setString(1, code);
-			st.executeUpdate();
-		}
-
-	}
-
-	public void reduceQuantity(String code, int quantity) throws SQLException {
-		try (PreparedStatement st = prepareStatement(REDUCE_QUANTITY)) {
-			st.setInt(1, quantity);
-			st.setString(2, code);
 			st.executeUpdate();
 		}
 

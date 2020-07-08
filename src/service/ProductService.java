@@ -101,7 +101,7 @@ public class ProductService {
 			failed = true;
 			message.append("\nPrice is a negative number");
 		}
-		if (product.getQuantity() <= 0) {
+		if (product.getQuantity() < 0) {
 			failed = true;
 			message.append("\nQuantity is a negative number");
 		}

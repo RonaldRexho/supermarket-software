@@ -7,17 +7,13 @@ import exception.SupermarketException;
 import model.Order;
 import model.OrderItem;
 import repository.OrderRepository;
-import repository.ProductRepository;
 
 public class OrderService {
 
 	private OrderRepository orderRepository;
-	private ProductRepository productRepository;
 
 	public OrderService() {
 		orderRepository = new OrderRepository();
-		productRepository = new ProductRepository();
-
 	}
 
 	public void insert(List<OrderItem> orderItems) {
@@ -29,7 +25,6 @@ public class OrderService {
 
 			for (OrderItem orderItem : orderItems) {
 				orderRepository.insert(orderItem);
-				productRepository.reduceQuantity(orderItem.getCode(), orderItem.getQuantity());
 			}
 
 		} catch (SQLException e) {
