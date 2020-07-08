@@ -27,7 +27,6 @@ import exception.SupermarketException;
 import gui.inventory.InventoryTableModel;
 import model.OrderItem;
 import model.Product;
-import model.User;
 import service.OrderService;
 import service.ProductService;
 

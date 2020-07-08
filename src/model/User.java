@@ -13,7 +13,7 @@ public class User {
 	private String phone;
 	private Date birthday;
 	private String username;
-	private Role role;
+	private int roleId;
 
 	public int getId() {
 		return id;
@@ -55,7 +55,7 @@ public class User {
 		this.password = password;
 	}
 
-	public String getPhone() {
+	public String Phone() {
 		return phone;
 	}
 
@@ -72,15 +72,14 @@ public class User {
 	}
 
 	public boolean isAdmin() {
-		return role.getId() == 1;
+		return roleId == 1;
 	}
 
-	public boolean isCashier() {
-		return !isAdmin();
-	}
-
-	public String getRole() {
-		return role.getName();
+	public String getRoleName() {
+		if (roleId == 1) {
+			return "Admin";
+		}
+		return "Cashier";
 	}
 
 	public Date getBirthday() {
@@ -91,10 +90,14 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
-	
+
+	public int getRoleId() {
+		return roleId;
+	}
+
 	public String getBirthdayString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(birthday);
@@ -103,9 +106,13 @@ public class User {
 	public String getName() {
 		return firstName + " " + lastName;
 	}
-	
+
 	public boolean hasUsername(String username) {
 		return this.username.equals(username);
+	}
+
+	public String getPhone() {
+		return phone;
 	}
 
 	@Override
@@ -132,11 +139,4 @@ public class User {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone
-				+ ", birthday=" + birthday + ", username=" + username + ", role=" + role + "]";
-	}
-
 }

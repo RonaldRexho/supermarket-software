@@ -10,16 +10,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Role;
 import model.User;
 
 public class UserRepository {
 
-	private static final String SELECT_ALL = "SELECT * FROM \"user\";";
+	private static final String SELECT_ALL = "SELECT * FROM \"user\" ORDER BY first_name, last_name;";
 	private static final String EXIST = "SELECT COUNT(*) FROM \"user\" WHERE username=?";
-	private static final String INSERT = "INSERT INTO \"user\"(	 first_name, last_name, username, email, password, phone, birthday) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT = "INSERT INTO \"user\"(	first_name, last_name, username, email, password, phone, birthday, role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String FIND_BY_USERNAME = "SELECT * FROM \"user\" WHERE username=?";
-	private static final String UPDATE = "UPDATE \"user\" SET first_name=?, last_name=?, email=?, phone=?, password=?, birthday=? WHERE username=?";
+	private static final String UPDATE = "UPDATE \"user\" SET first_name=?, last_name=?, email=?, phone=?, role_id=?, birthday=? ${password} WHERE username=?";
 	private static final String DELETE = "DELETE FROM \"user\" WHERE username=?;";
 
 	public List<User> getUsers() throws SQLException {
@@ -38,6 +37,7 @@ public class UserRepository {
 			st.setString(5, String.valueOf(user.getPassword()));
 			st.setString(6, user.getPhone());
 			st.setDate(7, user.getBirthday());
+			st.setInt(8, user.getRoleId());
 			st.executeUpdate();
 		}
 	}
@@ -62,14 +62,27 @@ public class UserRepository {
 	}
 
 	public void update(User user) throws SQLException {
-		try (PreparedStatement st = prepareStatement(UPDATE)) {
+		boolean isPasswordUpdate = user.getPassword().length > 0;
+		String sqlUpdate = UPDATE;
+		if (isPasswordUpdate) {
+			sqlUpdate = UPDATE.replace("${password}", ", password=?");
+		} else {
+			sqlUpdate = UPDATE.replace("${password}", "");
+		}
+		
+		try (PreparedStatement st = prepareStatement(sqlUpdate)) {
 			st.setString(1, user.getFirstName());
 			st.setString(2, user.getLastName());
 			st.setString(3, user.getEmail());
 			st.setString(4, user.getPhone());
-			st.setString(5, String.valueOf(user.getPassword()));
+			st.setInt(5, user.getRoleId());
 			st.setDate(6, user.getBirthday());
-			st.setString(7, user.getUsername());
+			if (isPasswordUpdate) {
+				st.setString(7, String.valueOf(user.getPassword()));
+				st.setString(8, user.getUsername());
+			} else {
+				st.setString(7, user.getUsername());
+			}
 			st.executeUpdate();
 		}
 	}
@@ -101,7 +114,7 @@ public class UserRepository {
 		user.setPassword(password.toCharArray());
 		user.setPhone(rs.getString("phone"));
 		user.setBirthday(rs.getDate("birthday"));
-		user.setRole(Role.getRole(rs.getInt("role_id")));
+		user.setRoleId(rs.getInt("role_id"));
 		return user;
 	}
 

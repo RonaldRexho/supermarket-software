@@ -10,7 +10,7 @@ public class EmployeeTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private String[] columnNames = { "FIRST_NAME", "LAST_NAME", "EMAIL", "USERNAME", "PHONE", "BIRTHDAY", "ROLE" };
+	private String[] columnNames = { "NAME", "EMAIL", "USERNAME", "PHONE", "BIRTHDAY", "ROLE" };
 	private List<User> employees;
 
 	public EmployeeTableModel(List<User> employees) {
@@ -29,7 +29,7 @@ public class EmployeeTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return columnNames.length;
 	}
-	
+
 	@Override
 	public String getColumnName(int col) {
 		return columnNames[col];
@@ -39,19 +39,17 @@ public class EmployeeTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		Object value;
 		if (col == 0) {
-			value = employees.get(row).getFirstName();
+			value = employees.get(row).getName();
 		} else if (col == 1) {
-			value = employees.get(row).getLastName();
-		} else if (col == 2) {
 			value = employees.get(row).getEmail();
-		} else if (col == 3) {
+		} else if (col == 2) {
 			value = employees.get(row).getUsername();
-		} else if (col == 4) {
+		} else if (col == 3) {
 			value = employees.get(row).getPhone();
-		} else if (col == 5) {
+		} else if (col == 4) {
 			value = employees.get(row).getBirthdayString();
 		} else {
-			value = employees.get(row).getRole();
+			value = employees.get(row).getRoleName();
 		}
 		return value;
 	}
@@ -69,6 +67,7 @@ public class EmployeeTableModel extends AbstractTableModel {
 		currentEmployee.setPhone(employee.getPhone());
 		currentEmployee.setBirthday(employee.getBirthday());
 		currentEmployee.setPassword(employee.getPassword());
+		currentEmployee.setRoleId(employee.getRoleId());
 		fireTableDataChanged();
 	}
 

@@ -28,7 +28,6 @@ import javax.swing.event.ListSelectionListener;
 
 import exception.SupermarketException;
 import gui.Runner;
-import model.Role;
 import model.User;
 import service.UserService;
 import util.View;
@@ -150,9 +149,9 @@ public class EmployeeView extends JFrame {
 			throw new SupermarketException("Employee must have a role");
 		}
 		if (adminRadioButton.isSelected()) {
-			employee.setRole(Role.ADMIN);
+			employee.setRoleId(1);
 		}else {
-			employee.setRole(Role.CASHIER);
+			employee.setRoleId(2);
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try {

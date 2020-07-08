@@ -40,6 +40,7 @@ public class UserService {
 	}
 
 	public void insert(User user) {
+		validateUser(user);
 		try {
 
 			if (userRepository.exist(user.getUsername())) {
@@ -52,10 +53,10 @@ public class UserService {
 			e.printStackTrace();
 			throw new SupermarketException("Cannot connect to database");
 		}
-
 	}
 
 	public void update(User user) {
+		validateUser(user);
 		try {
 
 			if (!userRepository.exist(user.getUsername())) {
@@ -68,7 +69,6 @@ public class UserService {
 			e.printStackTrace();
 			throw new SupermarketException("Cannot connect to database");
 		}
-
 	}
 
 	public void delete(String username) {
@@ -84,7 +84,33 @@ public class UserService {
 			e.printStackTrace();
 			throw new SupermarketException("Cannot connect to database");
 		}
-
 	}
-
+	
+	private void validateUser(User user) {
+		boolean failed = false;
+		StringBuilder message = new StringBuilder("Validation error: ");
+		if (user.getFirstName().isEmpty()) {
+			failed = true;
+			message.append("\nFirstname is empty");
+		}
+		if (user.getLastName().isEmpty()) {
+			failed = true;
+			message.append("\nLastName is empty");
+		}
+		if (user.getEmail().isEmpty()) {
+			failed = true;
+			message.append("\nEmail is empty");
+		}
+		if (user.getUsername().isEmpty()) {
+			failed = true;
+			message.append("\nUsername is empty");
+		}
+		if (user.getPhone().isEmpty()) {
+			failed = true;
+			message.append("\nPhone is empty");
+		}
+		if (failed) {
+			throw new SupermarketException(message.toString());
+		}
+	}
 }
